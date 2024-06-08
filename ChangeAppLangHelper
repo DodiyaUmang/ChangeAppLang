@@ -1,0 +1,364 @@
+##### Activity #####
+class ChangeLanguageActivity : BaseActivity(), SelectLanguage {
+    private lateinit var binding: ActivityChangeLanguageBinding
+
+    private lateinit var languageAdapter: BaseAdapter<ModelLanguage>
+
+    private lateinit var strFrom: String
+    private var languageToCheck = "English"
+    private var langCode = "en"
+
+    private var selectedLanguageCode = ""
+
+    private val viewModel: ChangeLanguageViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setBeforeClick()
+        setOnClick()
+    }
+
+    private fun setOnClick() {
+
+        binding.clToolbar.ivDone.setOnClickListener {
+            val currentLocale = getResources().configuration.locale
+            val languageCode = currentLocale.language
+            if (languageCode == langCode
+            ) {
+                startHowToUseActivity()
+            } else {
+                when (languageToCheck) {
+                    "English" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+                    }
+
+                    "हिंदी" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Deutsch" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "ગુજરાતી" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Afrikaans" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Dansk" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Français" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Indonesia" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Italiana" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "日本語" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "한국인" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Русский" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "తెలుగు" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "українська" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+                    "Española" -> {
+                        SharePrefUtil.saveStringData(
+                            this@ChangeLanguageActivity,
+                            SharePrefUtil.SELECTED_LANG_CODE,
+                            langCode
+                        )
+                        ApplicationClass.setLanguageForApp(langCode)
+
+                    }
+
+
+                }
+                startHowToUseActivity()
+            }
+
+
+        }
+
+        binding.clToolbar.ivBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun startHowToUseActivity() {
+        if (strFrom == ConsPrank.STR_SPLASH) {
+            LiveMatchUtils.startGivenActivity(this, HowToUseActivity::class.java)
+        }
+        finish()
+    }
+
+
+    private fun setBeforeClick() {
+        binding = ActivityChangeLanguageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.clToolbar.tvToolbarTtl.text = getString(R.string.languages)
+        binding.clToolbar.ivBack.isVisible = false
+
+        strFrom = intent.getStringExtra(ConsPrank.SELECT_LANG_FROM).toString()
+
+        selectedLanguageCode = SharePrefUtil.getStringLangData(
+            this@ChangeLanguageActivity,
+            SharePrefUtil.SELECTED_LANG_CODE
+        )
+
+        languageToCheck = LiveMatchUtils.getLanguageFromCode(
+            SharePrefUtil.getStringLangData(
+                this@ChangeLanguageActivity,
+                SharePrefUtil.SELECTED_LANG_CODE
+            )
+        )
+
+        languageAdapter = BaseAdapter.create<ModelLanguage>(R.layout.item_language)
+            .setAreContentsTheSame { old, new -> old == new }
+            .setAreItemsTheSame { old, new -> old == new }
+            .setOnBind { itemView, item ->
+                val adapterBinding = ItemLanguageBinding.bind(itemView)
+                if (selectedLanguageCode == item.langCode) {
+                    adapterBinding.ivCheckUncheck.setImageResource(R.drawable.icon_round_checked)
+                } else {
+                    adapterBinding.ivCheckUncheck.setImageResource(R.drawable.icon_round_unchecked)
+                }
+
+                 adapterBinding.tvLangEng.text = item.language
+                adapterBinding.tvLang.text = item.langEnglish
+
+            }
+            .setOnViewCreated { itemView, item ->
+                val adapterBinding = ItemLanguageBinding.bind(itemView)
+                itemView.setOnClickListener {
+                    languageToCheck = item.invoke().second.language
+                    langCode = item.invoke().second.langCode
+                    selectedLanguageCode = item.invoke().second.langCode
+                    languageAdapter.notifyDataSetChanged()
+                }
+            }.build()
+        binding.rvLanguages.adapter = languageAdapter
+
+
+        viewModel.state.onEach {
+            languageAdapter.submitList(it.list)
+        }.launchIn(lifecycleScope)
+
+    }
+
+
+    override fun onSelectedLangClick(modelLanguage: ModelLanguage) {
+        languageToCheck = modelLanguage.language
+        langCode = modelLanguage.langCode
+        languageAdapter.notifyDataSetChanged()
+    }
+}
+
+
+------------------------------------------------------------------------------------------
+##### Activity xml #####
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.ChangeLanguageActivity">
+
+
+    <include
+        android:id="@+id/clToolbar"
+        layout="@layout/layout_two_image_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLanguages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_7sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/layoutAd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clToolbar"
+        tools:listitem="@layout/item_language" />
+
+    <include
+        android:id="@+id/layoutAd"
+        layout="@layout/layout_ad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+------------------------------------------------------------------------------------------
+##### interface #####
+interface SelectLanguage {
+    fun onSelectedLangClick(modelLanguage: ModelLanguage)
+}
+
+-------------------------------------------------------------------------------------------
+##### Utils #####
+fun getLanguagesList(): List<ModelLanguage> {
+    return buildList {
+        add(ModelLanguage("English", "English", "en", false))
+        add(ModelLanguage("Hindi", "हिंदी", "hi", false))
+        add(ModelLanguage("Gujarati", "ગુજરાતી", "gu", false))
+        add(ModelLanguage("Afrikaans", "Afrikaans", "af", false))
+        add(ModelLanguage("German", "Deutsch", "de", false))
+        add(ModelLanguage("Danish", "Dansk", "da", false))
+        add(ModelLanguage("French", "Français", "fr", false))
+        add(ModelLanguage("Indonesian", "Indonesia", "in", false))
+        add(ModelLanguage("Italian", "Italiana", "it", false))
+        add(ModelLanguage("Japanese", "日本語", "ja", false))
+        add(ModelLanguage("Korean", "한국인", "ko", false))
+        add(ModelLanguage("Russian", "Русский", "ru", false))
+        add(ModelLanguage("Telugu", "తెలుగు", "te", false))
+        add(ModelLanguage("Ukrainian", "українська", "uk", false))
+        add(ModelLanguage("Spanish", "Española", "es", false))
+    }.sortedBy { it.langEnglish }
+}
+
+
+fun getLanguageFromCode(language: String): String {
+    return when (language) {
+        "en" -> "English"
+        "hi" -> "Hindi"
+        "de" -> "German"
+        "gu" -> "Gujarati"
+        "af" -> "Afrikaans"
+        "da" -> "Danish"
+        "fr" -> "French"
+        "in" -> "Indonesian"
+        "it" -> "Italian"
+        "ja" -> "Japanese"
+        "ko" -> "Korean"
+        "ru" -> "Russian"
+        "te" -> "Telugu"
+        "uk" -> "Ukrainian"
+        "es" -> "Spanish"
+        else -> ""
+    }
+}
+
+-------------------------------------------------------------
+##### Application Class Method #####
+public static void setLanguageForApp(String languageCode) {
+     LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(languageCode);
+     AppCompatDelegate.setApplicationLocales(appLocale);
+ }
